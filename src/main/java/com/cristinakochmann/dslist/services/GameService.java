@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cristinakochmann.dslist.dto.GameDTO;
 import com.cristinakochmann.dslist.dto.GameMinDTO;
 import com.cristinakochmann.dslist.entities.Game;
+import com.cristinakochmann.dslist.projections.GameMinProjection;
 import com.cristinakochmann.dslist.repositories.GameRepository;
 
 
@@ -42,6 +43,13 @@ public class GameService {
 		return dto;
 	}
 	
+	//retorna os games de acordo com lista escolhida, tem a ver com o projection criado
+	@Transactional(readOnly = true)
+	public List<GameMinDTO> findByList(Long listId){
+		List<GameMinProjection> result = gameRepository.searchByList(listId); 
+		List<GameMinDTO> dto = result.stream().map(x -> new GameMinDTO(x)).toList();
+		return dto;
+	}
 	
 		
 	
